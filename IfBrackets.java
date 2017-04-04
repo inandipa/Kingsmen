@@ -12,37 +12,61 @@ public class IfBrackets {
 		FileReader file = new FileReader(args[0]);
 		BufferedReader br = new BufferedReader(file);
 		Pattern if_wrong_pattern = Pattern.compile("if\\((.*)\\)");
-		Pattern if_correct_pattern = Pattern.compile("if\\((.*)\\)(.*)\\{");
+		Pattern bracket_not_found_pattern = Pattern.compile("^[^{]");
+		Pattern bracket_found_pattern = Pattern.compile("^\\{");
+		Pattern if_correct_pattern = Pattern.compile("if\\((.*)\\)(\\s*)\\{");
 		Pattern else_correct_pattern = Pattern.compile("else(.*)\\{");
 		Pattern else_wrong_pattern = Pattern.compile("else");
 		String line = "";
+		boolean bracket_found = false;
 		Matcher m;
-		boolean if_occured = false;
-		boolean else_occured = false;
+		int line_number = 0;
+		int error_occured = 0;
 		while((line = br.readLine()) != null){
-			//System.out.println(line);
+			line_number++;
+			
+			line = FIleCheckForUnrequiredPatterns.LineCheck(line);
+			
+			if(bracket_found){
+				 m = bracket_found_pattern.matcher(line); 
+				 if (m.find( )) {
+					 bracket_found = false;
+					 //System.out.println(error_occured);
+				 }
+				 m = bracket_not_found_pattern.matcher(line); 
+				 if (m.find( )) {
+					 bracket_found = false;
+					 System.out.println(error_occured);
+				 }
+			}else{
 		
 				m = if_wrong_pattern.matcher(line); 
 			    if (m.find( )) {
 			    	m = if_correct_pattern.matcher(line); 
 				    if (!m.find( )) {
-				    	if_occured = true;
-				    	System.out.println(line);
+				    	bracket_found = true;
+				    	error_occured = line_number;
+				    	
 				    }
 			    }
 			
-				m = else_wrong_pattern.matcher(line); 
-				if (m.find( )) {
-				   	m = else_correct_pattern.matcher(line); 
-					if (!m.find( )) {
-					    else_occured = true;
-					    System.out.println(line);
-					}
-				}
-
+				 m = else_wrong_pattern.matcher(line); 
+				    if (m.find( )) {
+				    	m = else_correct_pattern.matcher(line); 
+					    if (!m.find( )) {
+					    	bracket_found = true;
+					    	error_occured = line_number;
+					    	
+					    }
+				    }
+				    
 		}
+		}
+		
+		
 		
 		br.close();
 	}
+	
 
 }
