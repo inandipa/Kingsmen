@@ -1,9 +1,9 @@
+class Car{
+	constructor()
+		this.name = null;
+	
+	set engine(size){
+		this.engine = size;
+	}
 
-var a =3
-if(true){ { {
-	a =2
 }
-}
-}
-else
-	a =2
