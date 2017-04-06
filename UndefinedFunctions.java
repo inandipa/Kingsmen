@@ -1,4 +1,3 @@
- 
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,8 +11,10 @@ public class UndefinedFunctions {
 	public static void main(String[] args) throws IOException{
 		FileReader file = new FileReader(args[0]);
 		BufferedReader br = new BufferedReader(file);
+//		Pattern json_start = Pattern.compile("^(\\s*)(let|var|const)\\s(.+?)(\\s*=\\s*)\\{");
+//		Pattern json_end = Pattern.compile("^(\\s*)\\}\\;$");
 		Pattern class_pattern = Pattern.compile("(\\s*)class(.*)\\{");
-		Pattern function_pattern = Pattern.compile("^(\\s*)(let|var|const)\\s(.+?)(=)(function|\\s*)(.*)(\\s*|\\=\\>)\\{");
+		Pattern function_pattern = Pattern.compile("^(\\s*)(let|var|const)\\s(.+?)(\\s*=\\s*)(function|\\s*)(.*)(\\s*|\\=\\>)\\{");
 		Pattern function_in_class_pattern = Pattern.compile("(.*?)\\((.*)\\)\\{");
 		Pattern bracket_end_pattern = Pattern.compile("^(\\s*)\\}(\\s*)$");
 		Pattern bracket_start_pattern = Pattern.compile("^(.*)\\{$");
@@ -31,6 +32,7 @@ public class UndefinedFunctions {
 			line_number++;
 			line = FIleCheckForUnrequiredPatterns.LineCheck(line);
 			
+			 
 			 m = function_pattern.matcher(line); 
 			 if (m.find( )) {
 				 global_functions.add(m.group(3).trim());
@@ -67,9 +69,12 @@ public class UndefinedFunctions {
 				 if(call.split("\\s+").length ==1){
 					 if(call.split("\\.").length ==2){
 						 String temp_class_name = class_objects.get(call.split("\\.")[0]);
-						 if(! class_functions.get(temp_class_name).contains(call.split("\\.")[1])){
+			
+						 if(class_functions.get(temp_class_name) != null){
+							 if(! class_functions.get(temp_class_name).contains(call.split("\\.")[1])){
 							 System.out.println("function called :"+ (String) call + "\nOccured on line : " + line_number);
 								
+							 }
 						 }
 					 }else{
 						 if(! global_functions.contains(call)){
@@ -101,10 +106,10 @@ public class UndefinedFunctions {
 			
 		}
 		br.close();
-		System.out.println("global_functions:"+global_functions);
-		System.out.println("class_functions"+class_functions);
-		System.out.println("class_objects"+class_objects);
-		System.out.println("bracket_count"+bracket_count);
+		//System.out.println("global_functions:"+global_functions);
+		//System.out.println("class_functions"+class_functions);
+		//System.out.println("class_objects"+class_objects);
+		
 	}
 
 

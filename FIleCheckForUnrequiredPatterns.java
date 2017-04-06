@@ -2,7 +2,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FIleCheckForUnrequiredPatterns {
-	static Pattern string_pattern = Pattern.compile("\"(.*)\"");
+	static Pattern string_pattern = Pattern.compile("(\"(.*)\")|(\'(.*)\')");
 	static Matcher m;
 
 	public static String LineCheck(String line){
